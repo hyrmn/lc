@@ -64,9 +64,9 @@ I'm fairly happy with the performance and with getting to learn some Go
 
 ## Security Considerations
 
-This program works by traversing a byte stream 32kb of data at a time. The lesser of 32kb of data _or_ the remainder of the stream is read into a buffer. If the final chunk of data read is less than 32kb then the buffer will contain the current read at the front of the buffer while the remainder of the previous read will remain after that.
+This program works by traversing a byte stream 32kb of data at a time. The lesser of 32kb of data _or_ the remainder of the stream is read into a buffer. If the final chunk of data read is less than 32kb then the buffer will contain both the data from the current read at the front of the buffer and the data from the previous read in the rest of the buffer.
 
-The entire operation reuses the buffer for the duration of reading the stream. It will exist with the final data in the buffer until it is garbage collected by Go.
+The entire operation reuses the buffer for the duration of reading the stream. The buffer will stick around in memory with the final data in the buffer until it is garbage collected by Go.
 
 All I/O operations are handled by Go's standard libraries. A buffered IO reader is used to read in Stdin. A file handle is used to read in from a file location.
 
