@@ -42,9 +42,18 @@ To read from stdin (information piped in):
 > echo "Count the lines in this" | lc
 ```
 
-## Runtime considerations
+The only output from `lc` will be the line count. This is because I want the ability to pipe this on to other programs easily.
 
-Using `wc` (Unix word count program) on my machine to parse a 1.6GB text file of lorem ipsum text, I get the following averages after an initial warmup call:
+So the full run might look like 
+
+```
+> lc "path/to/your/file.txt"
+109
+```
+
+## Runtime Considerations
+
+Using `time` (Unix timing utility) `wc` (Unix word count utility) on my machine to parse a 1.6GB text file of lorem ipsum text, I get the following averages after an initial warmup call:
 
 ```
 real    0m0.822s
