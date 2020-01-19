@@ -15,7 +15,7 @@ func CountLines(r io.Reader) (int, error) {
 	var err error
 	var hasContent bool
 
-	buffer := make([]byte, 1024)
+	buffer := make([]byte, 4096)
 	hasContent = false
 
 	for {
