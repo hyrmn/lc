@@ -74,3 +74,19 @@ func TestCountLines_OverBufferSize(t *testing.T) {
 		t.Errorf("want %d got %d", want, got)
 	}
 }
+
+var benchIpsumResult int
+
+func BenchmarkIpsum(b *testing.B) {
+	file, err := os.Open("testdata/ipsum.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		benchIpsumResult, _ = CountLines(file)
+		n++
+	}
+}
