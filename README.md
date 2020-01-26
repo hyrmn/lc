@@ -73,6 +73,8 @@ sys     0m0.015s
 
 I'm fairly happy with the performance and with getting to learn some Go
 
+Note: There is no timeout when waiting for piped input from stdin. If stdin never ends the stream then `lc` will hang until it is force-quit (`ctrl+c`).
+
 ## Security Considerations
 
 This program works by traversing a byte stream 32kb of data at a time. The lesser of 32kb of data _or_ the remainder of the stream is read into a buffer. If the final chunk of data read is less than 32kb then the buffer will contain both the data from the current read at the front of the buffer and the data from the previous read in the rest of the buffer.
