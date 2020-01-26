@@ -43,5 +43,5 @@ func countLines(r io.Reader) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Print(count)
+	fmt.Println(count)
 }

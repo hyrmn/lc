@@ -61,7 +61,7 @@ func TestCountLines_EmptyFile(t *testing.T) {
 	}
 }
 
-func TestCountLines_OverBufferSize(t *testing.T) {
+func TestCountLines_Ipsum(t *testing.T) {
 	file, err := os.Open("testdata/ipsum.txt")
 	if err != nil {
 		log.Fatal(err)
