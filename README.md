@@ -2,7 +2,9 @@
 
 This is a small command-line utility to count lines in text. That's it. That's all it does. Technically, it doesn't even care if it's text. 
 
-There are some counting assumptions that I made. Basically, if it shows as a line in my text editor, I want to count it as a line. This means a zero-length file has a line count of 1. A blank line at the end of a file will count as 1. 
+There are some counting assumptions that I made. I had originally chosen to have this match my editor's line count. That is, if Visual Studio Code shows `x` lines then my logic would also show `x` lines. However, I've chosen to follow the behavior of `wc -l`. I count carriage returns (`\n`). If a file does not end with a carriage return then the last line will not be counted.
+
+While I'm not sure how I feel about this behavior, it is consistent with other tooling. A trailing carriage return is required to get an accurate count. Changing this is an exercise left to the reader.
 
 ## How to Get
 
@@ -81,16 +83,9 @@ All I/O operations are handled by Go's standard libraries. A buffered IO reader 
 
 ## Caveats
 
-I'm still learning Go and so some behaviors are either an issue with Windows or how I'm using the Go standard library. For example, running
+I'm still learning Go and so this utility is likely not idiomatic. It could probably be faster too!
 
-```
-echo "This is a line" | lc
-```
-returns an answer of `2`. 
-
-This is because a carriage return terminates `bufio.NewReader(os.Stdin)` (at least on Windows). And, back to my line counting rules, this is the correct line count given the input; it just looks weird
-
-Please note, due to how I've chosen to count lines, the output from `lc` may be one line higher than the output from `wc` (if you're hoping for exact compatibility, this behavior may surprise you)
+The 32kb buffer size was chosen after profiling against several large files. While it's best on my poor little laptop, it may not be the most efficient on other platforms.
 
 ## Where this project is going next
 

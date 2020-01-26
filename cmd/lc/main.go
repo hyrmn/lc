@@ -29,7 +29,7 @@ func main() {
 			return
 		}
 
-		file, err := os.Open(filePath)
+		file, err := os.OpenFile(filePath, os.O_RDONLY, 0644)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -43,5 +43,5 @@ func countLines(r io.Reader) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(count)
+	fmt.Print(count)
 }

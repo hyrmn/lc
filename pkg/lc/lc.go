@@ -6,17 +6,17 @@ import (
 )
 
 // CountLines returns the number of lines in the provided byte stream
-// It attempts to do this by counting occurances of `\n` while also assuming
-// that any input read counts as at least one line. This handles cases where a file may not end with a `\n`
+// It attempts to do this by counting occurances of `\n`
+// If a file does not end with a `\n` then the last line of text will not be counted
+// This is consistent with the behavior of running `wc -l <textfile.txt>`
 func CountLines(r io.Reader) (int, error) {
 
 	var count int
 	var read int
 	var err error
-	var hasContent bool
+	const target byte = '\n'
 
 	buffer := make([]byte, 32*1024)
-	hasContent = false
 
 	for {
 		read, err = r.Read(buffer)
@@ -24,11 +24,9 @@ func CountLines(r io.Reader) (int, error) {
 			break
 		}
 
-		hasContent = true
-
 		var position int
 		for {
-			idxOf := bytes.IndexByte(buffer[position:read], '\n')
+			idxOf := bytes.IndexByte(buffer[position:read], target)
 			if idxOf == -1 {
 				break
 			}
@@ -39,9 +37,6 @@ func CountLines(r io.Reader) (int, error) {
 	}
 
 	if err == io.EOF {
-		if hasContent || count == 0 {
-			count++
-		}
 		return count, nil
 	}
 
