@@ -14,7 +14,7 @@ func CountLines(r io.Reader) (int, error) {
 	var count int
 	var read int
 	var err error
-	const target byte = '\n'
+	var target []byte = []byte("\n")
 
 	buffer := make([]byte, 32*1024)
 
@@ -24,16 +24,7 @@ func CountLines(r io.Reader) (int, error) {
 			break
 		}
 
-		var position int
-		for {
-			idxOf := bytes.IndexByte(buffer[position:read], target)
-			if idxOf == -1 {
-				break
-			}
-
-			count++
-			position += idxOf + 1
-		}
+		count += bytes.Count(buffer[:read], target)
 	}
 
 	if err == io.EOF {
